@@ -1,0 +1,40 @@
+{
+    "name": "jaigga-node-validations",
+    "version": "1.0.0-SNAPSHOT",
+    "description": "A node module for validating classes attributes",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "prepare": "tsc --declaration",
+        "test": "./node_modules/.bin/mocha --compilers ts:ts-node/register ./test/*.spec.ts"
+    },
+    "files": [
+        "dist"
+    ],
+    "keywords": [
+        "node",
+        "validation",
+        "typescript",
+        "classes",
+        "attributes",
+        "params"
+    ],
+    "author": "Javier Iglesias García",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/chai": "^4.0.5",
+        "@types/mocha": "^2.2.44",
+        "@types/reflect-metadata": "0.0.5",
+        "chai": "^4.1.2",
+        "mocha": "^4.0.1",
+        "ts-node": "^3.3.0",
+        "typescript": "^2.6.1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/JaviIG/jaigga-node-validations.git"
+    },
+    "dependencies": {
+        "reflect-metadata": "^0.1.10"
+    }
+}
