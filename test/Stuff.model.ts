@@ -3,8 +3,8 @@ import { required, min, max, minLength, maxLength } from '../src/index';
 export const DATA = {
     "req": {
         "validStr": "REQUIRED",
-        "validObj": { "test": "valid" },
-        "validNum": 5,
+        "validObj": {},
+        "validNum": 0,
         "invalidUndefined": undefined,
         "invalidNull": null,
         "invalidEmpty": "",

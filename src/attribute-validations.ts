@@ -1,3 +1,4 @@
+import { ERRORS, VALIDATIONS } from './variables';
 import { ValidationRegex, EMAIL_REGEX, PHONE_REGEX } from "./validation/validation-regex";
 import { ValidationError } from "./validation/validation-error";
 import { SingleValidationError } from "./validation/single-validation-error";
@@ -6,13 +7,15 @@ import { SingleValidationError } from "./validation/single-validation-error";
 
 /**
  * Marks a field as required, checking that its value is not undefined and its trimmed string value length is greater than 0.
- * @param msgKey An optional message key for the showed error, which defaults to 'required'.
+ * @param msgKey An optional message key for the showed error, which defaults to 'required'. The message has this params: {0} => propertyKey
  */
 export function required(msgKey?: string): Function {
-    return (target: any, key: string) => {
-        pushValidation(target, key, (value: any) => {
-            if (isBlank(value))
-                pushError(target, key, { "key": msgKey || 'required', "params": [key] });
+    return (target: any, propertyKey: string) => {
+        pushValidation(target, propertyKey, (entity: any, key: any): SingleValidationError => {
+            const value = entity[key];
+            if (isBlank(value)) {
+                return { "key": msgKey || 'required', "params": [propertyKey] };
+            }
         })
     }
 }
@@ -25,18 +28,20 @@ export function required(msgKey?: string): Function {
  */
 export function min(min: number, exclude: boolean = false, msgKey?: string): Function {
     return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
-        const value = target[propertyKey];
-        if (!isBlank(value) && Number(value) !== NaN) {
-            if (exclude) {
-                if (Number(value) <= min) {
-                    pushError(target, propertyKey, { "key": msgKey || 'min-exclude', "params": [propertyKey, String(min)] });
-                }
-            } else {
-                if (Number(value) < min) {
-                    pushError(target, propertyKey, { "key": msgKey || 'min', "params": [propertyKey, String(min)] });
+        pushValidation(target, propertyKey, (entity: any, key: any): SingleValidationError => {
+            const value = entity[key];
+            if (!isBlank(value) && Number(value) !== NaN) {
+                if (exclude) {
+                    if (Number(value) <= min) {
+                        return { "key": msgKey || 'min-exclude', "params": [propertyKey, String(min)] };
+                    }
+                } else {
+                    if (Number(value) < min) {
+                        return { "key": msgKey || 'min', "params": [propertyKey, String(min)] };
+                    }
                 }
             }
-        }
+        })
     }
 }
 
@@ -48,18 +53,20 @@ export function min(min: number, exclude: boolean = false, msgKey?: string): Fun
  */
 export function max(max: number, exclude: boolean = false, msgKey?: string): Function {
     return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
-        const value = target[propertyKey];
-        if (!isBlank(value) && Number(value) !== NaN) {
-            if (exclude) {
-                if (Number(value) >= max) {
-                    pushError(target, propertyKey, { "key": msgKey || 'max-exclude', "params": [propertyKey, String(max)] });
-                }
-            } else {
-                if (Number(value) > max) {
-                    pushError(target, propertyKey, { "key": msgKey || 'max', "params": [propertyKey, String(max)] });
+        pushValidation(target, propertyKey, (entity: any, key: any): SingleValidationError => {
+            const value = entity[key];
+            if (!isBlank(value) && Number(value) !== NaN) {
+                if (exclude) {
+                    if (Number(value) >= max) {
+                        return { "key": msgKey || 'max-exclude', "params": [propertyKey, String(max)] };
+                    }
+                } else {
+                    if (Number(value) > max) {
+                        return { "key": msgKey || 'max', "params": [propertyKey, String(max)] };
+                    }
                 }
             }
-        }
+        })
     }
 }
 
@@ -70,9 +77,11 @@ export function max(max: number, exclude: boolean = false, msgKey?: string): Fun
  */
 export function minLength(min: number, msgKey?: string): Function {
     return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
-        const value = target[propertyKey];
-        if (!isBlank(value) && ("" + value).trim().length < min)
-            pushError(target, propertyKey, { "key": msgKey || 'min-length', "params": [propertyKey, String(min)] });
+        pushValidation(target, propertyKey, (entity: any, key: any): SingleValidationError => {
+            const value = entity[key];
+            if (!isBlank(value) && ("" + value).trim().length < min)
+                return { "key": msgKey || 'min-length', "params": [propertyKey, String(min)] };
+        })
     }
 }
 
@@ -83,9 +92,11 @@ export function minLength(min: number, msgKey?: string): Function {
  */
 export function maxLength(max: number, msgKey?: string): Function {
     return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
-        const value = target[propertyKey];
-        if (!isBlank(value) && ("" + value).trim().length > max)
-            pushError(target, propertyKey, { "key": msgKey || 'max-length', "params": [propertyKey, String(max)] });
+        pushValidation(target, propertyKey, (entity: any, key: any): SingleValidationError => {
+            const value = entity[key];
+            if (!isBlank(value) && ("" + value).trim().length > max)
+                return { "key": msgKey || 'max-length', "params": [propertyKey, String(max)] };
+        })
     }
 }
 
@@ -96,9 +107,11 @@ export function maxLength(max: number, msgKey?: string): Function {
  */
 export function hasRegex(regex: ValidationRegex, msgKey?: string): Function {
     return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
-        const value = target[propertyKey];
-        if (!isBlank(value) && !regex.regex.test(value))
-            pushError(target, propertyKey, { "key": msgKey || regex.descriptionKey, "params": [propertyKey] });
+        pushValidation(target, propertyKey, (entity: any, key: any): SingleValidationError => {
+            const value = entity[key];
+            if (!isBlank(value) && !regex.regex.test(value))
+                return { "key": msgKey || regex.descriptionKey, "params": [propertyKey] };
+        })
     }
 }
 
@@ -125,9 +138,11 @@ export function phone(msgKey?: string): Function {
  */
 export function inValues(allowedValues: any[], msgKey?: string): Function {
     return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
-        const value = target[propertyKey];
-        if (!isBlank(value) && allowedValues.indexOf(value) == -1)
-            pushError(target, propertyKey, { "key": msgKey || 'in-values', "params": [propertyKey] });
+        pushValidation(target, propertyKey, (entity: any, key: any): SingleValidationError => {
+            const value = entity[key];
+            if (!isBlank(value) && allowedValues.indexOf(value) == -1)
+                return { "key": msgKey || 'in-values', "params": [propertyKey] };
+        })
     }
 }
 
@@ -135,26 +150,14 @@ function isBlank(str: any): boolean {
     return typeof str === 'undefined' || String(str).trim().length === 0;
 }
 
-function pushError(entity: any, propertyKey: string, error: SingleValidationError) {
-    if (!Reflect.hasOwnMetadata("errors", entity)) {
-        Reflect.defineMetadata("errors", {}, entity);
+function pushValidation(clazz: any, key: string, validation: Function) {
+    if (!Reflect.hasOwnMetadata(VALIDATIONS, clazz)) {
+        Reflect.defineMetadata(VALIDATIONS, [], clazz);
     }
-
-    const errors = Reflect.getMetadata("errors", entity);
-    if (!errors[propertyKey])
-        errors[propertyKey] = [];
-
-    errors[propertyKey].push(error);
-}
-
-function pushValidation(target: any, key: string, validation: Function) {
-    if (!Reflect.hasOwnMetadata(target, "validations")) {
-        Reflect.defineMetadata("validations", [], target);
-    }
-    const validations = Reflect.getOwnMetadata("validations", target);
+    const validations = Reflect.getOwnMetadata(VALIDATIONS, clazz);
     validations.push({
         "key": key,
-        "validation": validation
+        "validate": validation
     });
 
 }

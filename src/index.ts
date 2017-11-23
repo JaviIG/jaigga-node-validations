@@ -9,10 +9,10 @@ const defaultMessages = {
     "en": MessagesEnglish
 }
 
-export function validationErrorHandle(defaultLanguage:string = "en", userMessages?:any) {
+export function validationErrorHandle(defaultLanguage: string = "en", userMessages?: any) {
     return (err, req, res, next) => {
-        if( err instanceof ValidationError) {
-            const validationError = <ValidationError> err;
+        if (err instanceof ValidationError) {
+            const validationError = <ValidationError>err;
             const messages = userMessages || defaultMessages;
             const language = req.acceptsLanguages(Object.keys(messages));
             const error = createErrorObject(validationError, messages, language);
@@ -21,11 +21,11 @@ export function validationErrorHandle(defaultLanguage:string = "en", userMessage
     }
 }
 
-function createErrorObject(error:ValidationError, messages:any, language:string){
+function createErrorObject(error: ValidationError, messages: any, language: string) {
     const response = {};
-    for(let key in Object.keys(error.validation)) {
-        const property:SingleValidationError[] = <SingleValidationError[]> error.validation[key];
-        
+    for (let key in Object.keys(error.validation)) {
+        const property: SingleValidationError[] = <SingleValidationError[]>error.validation[key];
+
         response[key] = [];
         property.forEach((err) => {
             const message = messages[err.key]
@@ -35,11 +35,12 @@ function createErrorObject(error:ValidationError, messages:any, language:string)
     return response;
 }
 
-function format(string, params){
+function format(string, params) {
     params.forEach((element, index) => {
         string = string.replace(new RegExp(`{${index}}`, 'g'), element);
     });
     return string;
 }
 
-export {required, min, max, minLength, maxLength} from './attribute-validations';
+export { required, min, max, minLength, maxLength } from './attribute-validations';
+export { valid, validate } from './param-validations';
