@@ -27,8 +27,12 @@ export function validate(): Function {
                     if (validations !== undefined) {
                         validations.forEach((validation) => { doValidation(validation, entity) });
                     }
-                    if (Reflect.hasOwnMetadata(ERRORS, entity)) {
+
+                    const errors = Reflect.getMetadata(ERRORS, entity);
+                    if (Object.keys(errors).length > 0) {
                         throw new ValidationError(Reflect.getOwnMetadata(ERRORS, entity));
+                    } else {
+                        Reflect.deleteMetadata(ERRORS, entity);
                     }
                 }
             }
@@ -38,7 +42,7 @@ export function validate(): Function {
 }
 function doValidation(validation: Validation, entity: any) {
     const error = validation.validate(entity[validation.key]);
-    if (error != undefined) {
+    if (error !== undefined) {
         const errors = Reflect.getMetadata(ERRORS, entity);
         if (errors[validation.key] === undefined) {
             errors[validation.key] = []

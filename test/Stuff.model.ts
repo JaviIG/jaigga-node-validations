@@ -1,44 +1,123 @@
-import { required, min, max, minLength, maxLength } from '../src/index';
+import { notNull, notEmpty, notBlank, min, max, minLength, maxLength, email, hasRegex, phone, EMAIL_REGEX } from '../src/index';
 
-export const DATA = {
-    "req": {
-        "validStr": "REQUIRED",
-        "validObj": {},
-        "validNum": 0,
-        "invalidUndefined": undefined,
-        "invalidNull": null,
-        "invalidEmpty": "",
-        "invalidSpace": " ",
-    },
-    "num": {
-        "validNum1": 0,
-        "validNum2": 0,
-        "invalidNumberLess": -0.000000000001,
-        "invalidNumberGreater": 10.000000000001
-    },
-    "str": {
-        "validStr1": "0",
-        "validStr2": "1234567890",
-        "validStr3": " ",
-        "invalidNumberLess": "12345678901",
-        "invalidNumberGreater": ""
-    }
-}
-export class Stuff {
-    @required()
-    public req: any;
-
-    @min(0)
-    @max(10)
-    public num: number;
-
-    @minLength(10)
-    @maxLength(20)
+export class NotNull {
+    @notNull()
     public str: string;
 
-    constructor(req: any, num: number, str: string) {
-        this.req = req;
-        this.num = num;
+    @notNull()
+    public num: number;
+
+    @notNull()
+    public arr: any[];
+
+    @notNull()
+    public obj: any;
+
+    constructor(str: string, num: number, arr: any[], obj: any) {
+        this.obj = obj;
+        this.arr = arr;
         this.str = str;
+        this.num = num;
     }
+}
+
+export class NotEmpty {
+    @notEmpty()
+    public str: string;
+
+    @notEmpty()
+    public num: number;
+
+    @notEmpty()
+    public arr: any[];
+
+    @notEmpty()
+    public obj: any;
+
+    constructor(str: string, num: number, arr: any[], obj: any) {
+        this.obj = obj;
+        this.arr = arr;
+        this.str = str;
+        this.num = num;
+    }
+}
+
+export class NotBlank {
+    @notBlank()
+    public str: string;
+
+    @notBlank()
+    public num: number;
+
+    @notBlank()
+    public arr: any[];
+
+    @notBlank()
+    public obj: any;
+
+    constructor(str: string, num: number, arr: any[], obj: any) {
+        this.obj = obj;
+        this.arr = arr;
+        this.str = str;
+        this.num = num;
+    }
+}
+
+export class MinMax {
+    @min(0)
+    public minInclude: number;
+
+    @max(0)
+    public maxInclude: number;
+
+    @min(0, true)
+    public minExclude: number;
+
+    @max(0, true)
+    public maxExclude: number;
+
+    @min(0, false, true)
+    @max(10, false, true)
+    public minmax: number;
+
+    constructor(minInclude: number, maxInclude: number, minExclude: number, maxExclude: number, minmax: number) {
+        this.minInclude = minInclude;
+        this.maxInclude = maxInclude;
+        this.minExclude = minExclude;
+        this.maxExclude = maxExclude;
+        this.minmax = minmax;
+    }
+}
+export class MinLengthMaxLength {
+    @minLength(1)
+    minLength: string;
+    @maxLength(5)
+    maxLength: string;
+
+    @minLength(1, true)
+    @maxLength(5, true)
+    both: string;
+
+    constructor(minLength: string, maxLength: string, both: string) {
+        this.minLength = minLength;
+        this.maxLength = maxLength;
+        this.both = both;
+    }
+}
+
+export class RegexValidation {
+    @hasRegex({ "regex": /(donkey|monkey)/, "descriptionKey": 'regex-donkey-or-monkey' }, true)
+    regex: string;
+
+    @email()
+    email: string;
+
+    constructor(regex: string, email: string) {
+        this.regex = regex;
+        this.email = email;
+    }
+}
+
+export class InValues {
+
 }

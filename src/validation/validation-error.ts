@@ -1,7 +1,8 @@
 export class ValidationError extends Error {
-    validation: any;
-    constructor(validation: any) {
+    errors: any;
+    constructor(errors: any) {
         super("Error while validating entity.");
-        this.validation = validation;
+        console.log("ValidationError", errors);
+        this.errors = errors;
     }
 }

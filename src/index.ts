@@ -15,13 +15,13 @@ export function validationErrorHandle(defaultLanguage: string = "en", userMessag
             const validationError = <ValidationError>err;
             const messages = userMessages || defaultMessages;
             const language = req.acceptsLanguages(Object.keys(messages));
-            const error = createErrorObject(validationError, messages, language);
-            res.status(400).send(error);
+            const errors = validationError.errors;
+            res.status(400).send(errors);
         }
     }
 }
 
-function createErrorObject(error: ValidationError, messages: any, language: string) {
+/*function createErrorObject(error: ValidationError, messages: any, language: string) {
     const response = {};
     for (let key in Object.keys(error.validation)) {
         const property: SingleValidationError[] = <SingleValidationError[]>error.validation[key];
@@ -33,7 +33,7 @@ function createErrorObject(error: ValidationError, messages: any, language: stri
         });
     }
     return response;
-}
+}*/
 
 function format(string, params) {
     params.forEach((element, index) => {
@@ -42,5 +42,6 @@ function format(string, params) {
     return string;
 }
 
-export { required, min, max, minLength, maxLength } from './attribute-validations';
-export { valid, validate } from './param-validations';
+export * from './attribute-validations';
+export * from './validation/validation-regex';
+export * from './param-validations';
