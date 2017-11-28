@@ -1,6 +1,6 @@
-import { notNull, notEmpty, notBlank, min, max, minLength, maxLength, email, hasRegex, phone, EMAIL_REGEX } from '../src/index';
+import { notNull, notEmpty, notBlank, min, max, minLength, maxLength, email, hasRegex, EMAIL_REGEX, inValues } from '../src/index';
 
-export class NotNull {
+export class NotNullValidation {
     @notNull()
     public str: string;
 
@@ -21,7 +21,7 @@ export class NotNull {
     }
 }
 
-export class NotEmpty {
+export class NotEmptyValidation {
     @notEmpty()
     public str: string;
 
@@ -42,7 +42,7 @@ export class NotEmpty {
     }
 }
 
-export class NotBlank {
+export class NotBlankValidation {
     @notBlank()
     public str: string;
 
@@ -63,7 +63,7 @@ export class NotBlank {
     }
 }
 
-export class MinMax {
+export class MinMaxValidation {
     @min(0)
     public minInclude: number;
 
@@ -88,7 +88,7 @@ export class MinMax {
         this.minmax = minmax;
     }
 }
-export class MinLengthMaxLength {
+export class MinLengthMaxLengthValidation {
     @minLength(1)
     minLength: string;
     @maxLength(5)
@@ -118,6 +118,28 @@ export class RegexValidation {
     }
 }
 
-export class InValues {
+export class InValuesValidation {
+    public static STR_VALUES: string[] = ["1", "2", "3", null];
+    public static NUM_VALUES: number[] = [1, 2, 3, undefined];
+    public static ARR_VALUES: any[][] = [[{ "a": "1" }], [{ "b": "2" }], null];
+    public static OBJ_VALUES: any[] = [{ "a": ["1", "2"] }, { "b": ["3", "4"] }, undefined];
 
+    @inValues(InValuesValidation.STR_VALUES)
+    public str: string;
+
+    @inValues(InValuesValidation.NUM_VALUES)
+    public num: number;
+
+    @inValues(InValuesValidation.ARR_VALUES)
+    public arr: any[];
+
+    @inValues(InValuesValidation.OBJ_VALUES)
+    public obj: any;
+
+    constructor(str: string, num: number, arr: any[], obj: any) {
+        this.obj = obj;
+        this.arr = arr;
+        this.str = str;
+        this.num = num;
+    }
 }

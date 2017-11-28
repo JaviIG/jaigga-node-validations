@@ -49,3 +49,10 @@ export const REGEX_INVALID = {
 export const REGEX_OPTIONAL = {
     "email": [{ "key": 'regex-email', "params": ['email'] }]
 }
+
+export const IN_VALUES_INVALID = {
+    "str": [{ "key": 'in-values', "params": ['str'] }],
+    "num": [{ "key": 'in-values', "params": ['num'] }],
+    "arr": [{ "key": 'in-values', "params": ['arr'] }],
+    "obj": [{ "key": 'in-values', "params": ['obj'] }]
+}

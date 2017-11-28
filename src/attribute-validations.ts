@@ -3,7 +3,7 @@ import { ValidationRegex, EMAIL_REGEX } from "./validation/validation-regex";
 import { ValidationError } from "./validation/validation-error";
 import { SingleValidationError } from "./validation/single-validation-error";
 import { isEmpty, isNullOrUndefined, isBlank } from './validation-functions';
-
+import equal = require('deep-equal')
 
 
 /**
@@ -188,7 +188,14 @@ export function email(optional: boolean = false, msgKey?: string): Function {
 export function inValues(allowedValues: any[], msgKey?: string): Function {
     return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
         pushValidation(target, propertyKey, (value: any): SingleValidationError => {
-            if (!isBlank(value) && allowedValues.indexOf(value) == -1)
+            const result = allowedValues.findIndex((element) => {
+                if (!isNullOrUndefined(value) && typeof element === 'object') {
+                    return equal(value, element);
+                } else {
+                    return element === value;
+                }
+            })
+            if (result === -1)
                 return { "key": msgKey || 'in-values', "params": [propertyKey] };
         })
     }
