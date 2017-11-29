@@ -1,4 +1,4 @@
 export interface SingleValidationError {
     key: string;
-    params: string[];
+    params: any;
 }

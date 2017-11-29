@@ -1,3 +1,13 @@
 {
-    "required": "The field {0} is mandatory."
+    "not-null": "The field '{field}' can't be null or undefined.",
+    "not-empty": "The field '{field}' can't be empty.",
+    "not-blank": "The field '{field}' can't be null, undefined or empty.",
+    "min": "The '{field}' value must be greater or equal than '{min}'.",
+    "min-exclude": "The '{field}' value must be greater than '{min}'.",
+    "max": "The value of the '{field}' field must be less or equal than '{max}'.",
+    "max-exclude": "The value of the '{field}' field must be less than '{max}'.",
+    "min-length": "The length of the '{field}' field must be greater or equal than '{min-length}'.",
+    "max-length": "The length of the '{field}' field must be less or equal than '{max-length}'.",
+    "regex-email": "The field '{field}' must be a valid e-mail address.",
+    "in-values": "The field '{field}' must be one of this values: {allowed-values}"
 }

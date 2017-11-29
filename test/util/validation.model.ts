@@ -1,4 +1,4 @@
-import { notNull, notEmpty, notBlank, min, max, minLength, maxLength, email, hasRegex, EMAIL_REGEX, inValues } from '../src/index';
+import { notNull, notEmpty, notBlank, min, max, minLength, maxLength, email, hasRegex, EMAIL_REGEX, inValues } from '../../src/index';
 
 export class NotNullValidation {
     @notNull()
@@ -106,6 +106,7 @@ export class MinLengthMaxLengthValidation {
 }
 
 export class RegexValidation {
+
     @hasRegex({ "regex": /(donkey|monkey)/, "descriptionKey": 'regex-donkey-or-monkey' }, true)
     regex: string;
 
@@ -141,5 +142,23 @@ export class InValuesValidation {
         this.arr = arr;
         this.str = str;
         this.num = num;
+    }
+}
+
+export class ServerRequestValidation {
+    public static fromJson(json: any) {
+        if (json !== undefined) {
+            return new ServerRequestValidation(json.rating);
+        } else {
+            return new ServerRequestValidation(undefined);
+        }
+    }
+
+    @min(0, false, false, "min-rating")
+    @max(10)
+    public rating: number;
+
+    constructor(rating: number) {
+        this.rating = rating;
     }
 }
