@@ -77,3 +77,13 @@ export const RESPONSE_DEFAULT_CONFIGURATION_MAX_EN = {
         "The value of the 'rating' field must be less or equal than '10'."
     ]
 }
+export const RESPONSE_CUSTOM_CONFIGURATION_MAX_ES = {
+    "rating": [
+        "El valor máximo para el campo 'rating' es '10'."
+    ]
+}
+export const RESPONSE_CUSTOM_CONFIGURATION_MIN_AST = {
+    "rating": [
+        "¡Yes fatu! ¡En Asturies la valoración mínima ye como poco '0', a ver si te enteres soplagaitas!"
+    ]
+}

@@ -4,7 +4,7 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 import app from './util/fake-server'
 import { validationErrorHandler } from '../src/index';
-import { RESPONSE_DEFAULT_CONFIGURATION_MIN_EN, RESPONSE_DEFAULT_CONFIGURATION_MAX_ES, RESPONSE_DEFAULT_CONFIGURATION_MAX_EN } from './util/responses.mock';
+import { RESPONSE_DEFAULT_CONFIGURATION_MIN_EN, RESPONSE_DEFAULT_CONFIGURATION_MAX_ES, RESPONSE_DEFAULT_CONFIGURATION_MAX_EN, RESPONSE_CUSTOM_CONFIGURATION_MIN_AST, RESPONSE_CUSTOM_CONFIGURATION_MAX_ES } from './util/responses.mock';
 
 describe("Validation error handler", () => {
     chai.use(chaiHttp);
@@ -73,11 +73,11 @@ describe("Validation error handler", () => {
         const defaultLanguage = "es";
         const customConfiguration = {
             "es": {
-                "min": "El valor mínimo para el campo {fieldname} is {min}",
-                "min-rating": "La valoración mínima debe ser un {min}"
-            }, "en": {
-                "min": "The minimum allowed value for field {fieldname} is {min}",
-                "min-rating": "Minimum allowed rating is {min}"
+                "max": "El valor máximo para el campo '{field}' es '{max}'.",
+                "min-rating": "La valoración máxima debe ser '{min}'."
+            }, "ast": {
+                "max": "¿Estamos tontos o que?, a ver si nos enteramos que el valor máximo pa '{field}' ye '{max}'",
+                "min-rating": "¡Yes fatu! ¡En Asturies la valoración mínima ye como poco '{min}', a ver si te enteres soplagaitas!"
             }
         };
         app.use(configurationEndpoint, validationErrorHandler("es", customConfiguration));
@@ -100,6 +100,27 @@ describe("Validation error handler", () => {
                 .catch((err) => {
                     expect(err.response.status).to.equal(400);
                     expect(err.response).to.be.json;
+                    done();
+                });
+        });
+        it("Should send messages in the default language when no one is specified in the request.", (done) => {
+            const invalidEntity = new ServerRequestValidation(15);
+            chai.request(server)
+                .post(configurationEndpoint)
+                .send(invalidEntity)
+                .catch((err) => {
+                    expect(err.response.body).to.deep.equal(RESPONSE_CUSTOM_CONFIGURATION_MAX_ES);
+                    done();
+                });
+        });
+        it("Should send messages in the requested language.", (done) => {
+            const invalidEntity = new ServerRequestValidation(-5);
+            chai.request(server)
+                .post(configurationEndpoint)
+                .set('accept-language', 'ast')
+                .send(invalidEntity)
+                .catch((err) => {
+                    expect(err.response.body).to.deep.equal(RESPONSE_CUSTOM_CONFIGURATION_MIN_AST);
                     done();
                 });
         });
