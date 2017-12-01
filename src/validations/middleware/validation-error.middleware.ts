@@ -1,9 +1,10 @@
-import { ValidationError } from "./util/validation-error";
-import { SingleValidationError } from "./util/single-validation-error";
+import { SingleValidationError } from './../single-validation-error';
+import { ValidationError } from './../validation-error';
+
 
 const defaultMessages = {
-    "es": require('./messages/messages.es.json'),
-    "en": require('./messages/messages.en.json')
+    "es": require('./../../messages/messages.es.json'),
+    "en": require('./../../messages/messages.en.json')
 }
 
 export function validationErrorHandler(defaultLanguage: string = "en", userMessages?: any) {

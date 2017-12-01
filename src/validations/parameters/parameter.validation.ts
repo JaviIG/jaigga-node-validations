@@ -1,7 +1,9 @@
-import { ValidationError } from "./util/validation-error";
-import { VALIDATIONS, VALID, ERRORS } from "./util/variables";
-import { SingleValidationError } from "./util/single-validation-error";
-import { Validation } from "./util/validation";
+import { SingleValidationError } from './../single-validation-error';
+import { Validation } from '../validation';
+import { VALID, ERRORS, VALIDATIONS } from "../variables";
+import { ValidationError } from "../validation-error";
+
+
 
 export function valid(): Function {
     return (target: any, key: string, index: number) => {

@@ -1,7 +1,11 @@
 import "reflect-metadata";
-export * from './util/validation-regex';
-export * from './util/validation-error';
-export * from './util/single-validation-error';
-export * from './class-attribute.validations';
-export * from './method-parameter.validations';
-export * from './validation-error-handler';
+export * from './validations/attributes/array.validation';
+export * from './validations/attributes/number-value.validation';
+export * from './validations/attributes/regex.validation';
+export * from './validations/attributes/required.validation';
+export * from './validations/attributes/string-length.validation';
+export * from './validations/middleware/validation-error.middleware';
+export * from './validations/parameters/parameter.validation';
+export * from './validations/single-validation-error';
+export * from './validations/validation-error';
+export * from './validations/validation';

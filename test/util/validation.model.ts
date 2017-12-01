@@ -1,16 +1,16 @@
-import { notNull, notEmpty, notBlank, min, max, minLength, maxLength, email, hasRegex, EMAIL_REGEX, inValues } from '../../src/index';
+import { NotNull, NotEmpty, NotBlank, Min, Max, MinLength, MaxLength, Email, HasRegex, InValues, Less, Greater } from '../../src/index';
 
 export class NotNullValidation {
-    @notNull()
+    @NotNull()
     public str: string;
 
-    @notNull()
+    @NotNull()
     public num: number;
 
-    @notNull()
+    @NotNull()
     public arr: any[];
 
-    @notNull()
+    @NotNull()
     public obj: any;
 
     constructor(str: string, num: number, arr: any[], obj: any) {
@@ -22,16 +22,16 @@ export class NotNullValidation {
 }
 
 export class NotEmptyValidation {
-    @notEmpty()
+    @NotEmpty()
     public str: string;
 
-    @notEmpty()
+    @NotEmpty()
     public num: number;
 
-    @notEmpty()
+    @NotEmpty()
     public arr: any[];
 
-    @notEmpty()
+    @NotEmpty()
     public obj: any;
 
     constructor(str: string, num: number, arr: any[], obj: any) {
@@ -43,16 +43,16 @@ export class NotEmptyValidation {
 }
 
 export class NotBlankValidation {
-    @notBlank()
+    @NotBlank()
     public str: string;
 
-    @notBlank()
+    @NotBlank()
     public num: number;
 
-    @notBlank()
+    @NotBlank()
     public arr: any[];
 
-    @notBlank()
+    @NotBlank()
     public obj: any;
 
     constructor(str: string, num: number, arr: any[], obj: any) {
@@ -64,38 +64,38 @@ export class NotBlankValidation {
 }
 
 export class MinMaxValidation {
-    @min(0)
-    public minInclude: number;
+    @Min({ "min": 0 })
+    public min: number;
 
-    @max(0)
-    public maxInclude: number;
+    @Max({ "max": 0 })
+    public max: number;
 
-    @min(0, true)
-    public minExclude: number;
+    @Greater({ "min": 0 })
+    public greater: number;
 
-    @max(0, true)
-    public maxExclude: number;
+    @Less({ "max": 0 })
+    public less: number;
 
-    @min(0, false, true)
-    @max(10, false, true)
+    @Min({ "min": 0, "optional": true })
+    @Max({ "max": 10, "optional": true })
     public minmax: number;
 
-    constructor(minInclude: number, maxInclude: number, minExclude: number, maxExclude: number, minmax: number) {
-        this.minInclude = minInclude;
-        this.maxInclude = maxInclude;
-        this.minExclude = minExclude;
-        this.maxExclude = maxExclude;
+    constructor(min: number, max: number, greater: number, less: number, minmax: number) {
+        this.min = min;
+        this.max = max;
+        this.greater = greater;
+        this.less = less;
         this.minmax = minmax;
     }
 }
 export class MinLengthMaxLengthValidation {
-    @minLength(1)
+    @MinLength({ "min": 1 })
     minLength: string;
-    @maxLength(5)
+    @MaxLength({ "max": 5 })
     maxLength: string;
 
-    @minLength(1, true)
-    @maxLength(5, true)
+    @MinLength({ "min": 1, "optional": true })
+    @MaxLength({ "max": 5, "optional": true })
     both: string;
 
     constructor(minLength: string, maxLength: string, both: string) {
@@ -107,10 +107,10 @@ export class MinLengthMaxLengthValidation {
 
 export class RegexValidation {
 
-    @hasRegex({ "regex": /(donkey|monkey)/, "descriptionKey": 'regex-donkey-or-monkey' }, true)
+    @HasRegex({ "regex": /(donkey|monkey)/, "msgKey": 'regex-donkey-or-monkey', "optional": true })
     regex: string;
 
-    @email()
+    @Email()
     email: string;
 
     constructor(regex: string, email: string) {
@@ -125,16 +125,16 @@ export class InValuesValidation {
     public static ARR_VALUES: any[][] = [[{ "a": "1" }], [{ "b": "2" }], null];
     public static OBJ_VALUES: any[] = [{ "a": ["1", "2"] }, { "b": ["3", "4"] }, undefined];
 
-    @inValues(InValuesValidation.STR_VALUES)
+    @InValues({ "allowedValues": InValuesValidation.STR_VALUES })
     public str: string;
 
-    @inValues(InValuesValidation.NUM_VALUES)
+    @InValues({ "allowedValues": InValuesValidation.NUM_VALUES })
     public num: number;
 
-    @inValues(InValuesValidation.ARR_VALUES)
+    @InValues({ "allowedValues": InValuesValidation.ARR_VALUES })
     public arr: any[];
 
-    @inValues(InValuesValidation.OBJ_VALUES)
+    @InValues({ "allowedValues": InValuesValidation.OBJ_VALUES })
     public obj: any;
 
     constructor(str: string, num: number, arr: any[], obj: any) {
@@ -154,8 +154,8 @@ export class ServerRequestValidation {
         }
     }
 
-    @min(0, false, false, "min-rating")
-    @max(10)
+    @Min({ "min": 0, "msgKey": "min-rating" })
+    @Max({ "max": 10 })
     public rating: number;
 
     constructor(rating: number) {

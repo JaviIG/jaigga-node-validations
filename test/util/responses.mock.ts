@@ -1,5 +1,5 @@
-import { EMAIL_REGEX } from "../../src/index";
 import { InValuesValidation } from "./validation.model";
+import { EMAIL_REGEX } from "../../src/index";
 
 //Errors mocks
 export const NOT_NULL_TEST = {
@@ -21,18 +21,18 @@ export const NOT_BLANK_TEST = {
 }
 
 export const MIN_MAX_RANGE = {
-    "minInclude": [{ "key": 'min', "params": { "field": 'minInclude', "min": 0, "value": -0.0000000001 } }],
-    "maxInclude": [{ "key": 'max', "params": { "field": 'maxInclude', "max": 0, "value": 0.0000000001 } }],
-    "minExclude": [{ "key": 'min-exclude', "params": { "field": 'minExclude', "min": 0, "value": 0 } }],
-    "maxExclude": [{ "key": 'max-exclude', "params": { "field": 'maxExclude', "max": 0, "value": 0 } }],
+    "min": [{ "key": 'min', "params": { "field": 'min', "min": 0, "value": -0.0000000001 } }],
+    "max": [{ "key": 'max', "params": { "field": 'max', "max": 0, "value": 0.0000000001 } }],
+    "greater": [{ "key": 'greater', "params": { "field": 'greater', "min": 0, "value": 0 } }],
+    "less": [{ "key": 'less', "params": { "field": 'less', "max": 0, "value": 0 } }],
     "minmax": [{ "key": 'min', "params": { "field": 'minmax', "min": 0, "value": -1 } }],
 }
 
 export const MIN_MAX_OPTIONAL = {
-    "minInclude": [{ "key": 'min', "params": { "field": 'minInclude', "min": 0, "value": null } }],
-    "maxInclude": [{ "key": 'max', "params": { "field": 'maxInclude', "max": 0, "value": null } }],
-    "minExclude": [{ "key": 'min-exclude', "params": { "field": 'minExclude', "min": 0, "value": undefined } }],
-    "maxExclude": [{ "key": 'max-exclude', "params": { "field": 'maxExclude', "max": 0, "value": undefined } }]
+    "min": [{ "key": 'min', "params": { "field": 'min', "min": 0, "value": null } }],
+    "max": [{ "key": 'max', "params": { "field": 'max', "max": 0, "value": null } }],
+    "greater": [{ "key": 'greater', "params": { "field": 'greater', "min": 0, "value": undefined } }],
+    "less": [{ "key": 'less', "params": { "field": 'less', "max": 0, "value": undefined } }]
 }
 
 export const MIN_LENGTH_MAX_LENGTH_RANGE = {
@@ -48,10 +48,10 @@ export const MIN_LENGTH_MAX_LENGTH_OPTIONAL = {
 
 export const REGEX_INVALID = {
     "regex": [{ "key": 'regex-donkey-or-monkey', "params": { "field": 'regex', "value": "doge", 'regex': "/(donkey|monkey)/" } }],
-    "email": [{ "key": 'regex-email', "params": { "field": 'email', "value": "not-an-email", 'regex': EMAIL_REGEX.regex.toString() } }]
+    "email": [{ "key": 'regex-email', "params": { "field": 'email', "value": "not-an-email", 'regex': EMAIL_REGEX.toString() } }]
 }
 export const REGEX_OPTIONAL = {
-    "email": [{ "key": 'regex-email', "params": { "field": 'email', "value": undefined, 'regex': EMAIL_REGEX.regex.toString() } }]
+    "email": [{ "key": 'regex-email', "params": { "field": 'email', "value": undefined, 'regex': EMAIL_REGEX.toString() } }]
 }
 
 export const IN_VALUES_INVALID = {
