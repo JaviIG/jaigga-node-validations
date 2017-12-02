@@ -1,47 +1,48 @@
 {
-  "name": "jaigga-node-validations",
-  "version": "1.0.0-SNAPSHOT",
-  "description": "A node module for validating classes attributes",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "scripts": {
-    "prepare": "tsc --declaration",
-    "test": "mocha --require ts-node/register ./test/**/*.spec.ts"
-  },
-  "files": [
-    "dist"
-  ],
-  "keywords": [
-    "node",
-    "validation",
-    "typescript",
-    "classes",
-    "attributes",
-    "params"
-  ],
-  "author": "Javier Iglesias García",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/chai": "^4.0.5",
-    "@types/chai-http": "^3.0.3",
-    "@types/deep-equal": "^1.0.1",
-    "@types/express": "^4.0.39",
-    "@types/mocha": "^2.2.44",
-    "@types/node": "^8.0.53",
-    "@types/reflect-metadata": "0.0.5",
-    "chai": "^4.1.2",
-    "express": "^4.16.2",
-    "mocha": "^4.0.1",
-    "ts-node": "^3.3.0",
-    "chai-http": "^3.0.0",
-    "typescript": "^2.6.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/JaviIG/jaigga-node-validations.git"
-  },
-  "dependencies": {
-    "deep-equal": "^1.0.1",
-    "reflect-metadata": "^0.1.10"
-  }
+    "name": "jaigga-node-validations",
+    "version": "1.0.0-SNAPSHOT",
+    "description": "A node module for validating classes attributes",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "prepare": "tsc --declaration",
+        "test": "mocha"
+    },
+    "files": [
+        "dist"
+    ],
+    "keywords": [
+        "node",
+        "validation",
+        "model",
+        "typescript",
+        "classes",
+        "attributes",
+        "params"
+    ],
+    "author": "Javier Iglesias García",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/chai": "^4.0.5",
+        "@types/chai-http": "^3.0.3",
+        "@types/deep-equal": "^1.0.1",
+        "@types/express": "^4.0.39",
+        "@types/mocha": "^2.2.44",
+        "@types/node": "^8.0.53",
+        "@types/reflect-metadata": "0.0.5",
+        "chai": "^4.1.2",
+        "chai-http": "^3.0.0",
+        "express": "^4.16.2",
+        "mocha": "^4.0.1",
+        "ts-node": "^3.3.0",
+        "typescript": "^2.6.1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/JaviIG/jaigga-node-validations.git"
+    },
+    "dependencies": {
+        "deep-equal": "^1.0.1",
+        "reflect-metadata": "^0.1.10"
+    }
 }
