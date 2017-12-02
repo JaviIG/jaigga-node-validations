@@ -33,7 +33,7 @@ Also, you can pass a custom configuration to the middleware:
 ### Decorators configuration
 
 Decorator | Configuration | Optional | Default | Description
---- | --- | ---
+--- | --- | --- | --- | ---
 @notNull | msg-key | :white_check_mark: | 'not-empty' | A custom (or not) message key for use when formatting the error to the user
 @notEmpty | msg-key | :white_check_mark: | 'not-empty' | A custom (or not) message key for use when formatting the error to the user
 //TO-DO
