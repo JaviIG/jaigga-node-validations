@@ -77,6 +77,22 @@ class MyModel {
 	...
 }
 ```
+Some configuration options allow functions instead of an static value. Passing a function instead of a value like a number, allows us to perform a dynamic validation, not just simple checks. This functions will follow this signature
+```
+(instance) => number
+```
+The instance is the current object, so you can access its own methods and attributes.
+So, imagine that you have a form model with two inputs, birth year and graduation year. You want to check that the graduation year is bigger than birth year. With this decorators you can now simply do this:
+```
+class YearsForm {
+    @Min({"min": 1900})
+    public birthYear:number;
+    @Min({"min": (instance) => instance.birthYear})
+    public graduationYear:number;
+}
+```
+And congratulations! You have successfully checked in one line that the graduation year is bigger than the birth year.
+
 #### @NotNull
 Checks that the attribute is not null or undefined.
 
@@ -128,6 +144,7 @@ min | :white_check_mark: | | The minimum allowed value for the property
 
 ####@Max
 Checks that the attribute is smaller or equal than the max parameter.
+
 Configuration | Required | Default | Description
 --- | --- | --- | ---
 msg-key | :x: | 'max' | A custom (or not) message key for use when formatting the error to the user
@@ -136,6 +153,7 @@ max | :white_check_mark: | | The maximum allowed value for the property
 
 ####@Less
 Checks that the attribute is smaller than the max parameter.
+
 Configuration | Required | Default | Description
 --- | --- | --- | ---
 msg-key | :x: | 'less' | A custom (or not) message key for use when formatting the error to the user
@@ -144,15 +162,17 @@ max | :white_check_mark: | | The maximum allowed value for the property
 
 ####@InRange
 Checks that the attribute value is between the min and max parameters.
+
 Configuration | Required | Default | Description
 --- | --- | --- | ---
-msg-key | :x: | 'range' | A custom (or not) message key for use when formatting the error to the user
+msg-key | :x: | 'in-range' | A custom (or not) message key for use when formatting the error to the user
 optional |:x: | false | If true the validation will only execute if the value is not null or undefined.
 min | :white_check_mark: | | The minimum allowed value for the property
 max | :white_check_mark: | | The maximum allowed value for the property
 
 ####@MinLength
 Checks that the attribute is smaller than the min parameter.
+
 Configuration | Required | Default | Description
 --- | --- | --- | ---
 msg-key | :x: | 'min-length' | A custom (or not) message key for use when formatting the error to the user
@@ -162,6 +182,7 @@ trim | :x: | false | If true, the string value will be trimmed (trimming a strin
 
 ####@MaxLength
 Checks that the string length is less or equal than the max parameter.
+
 Configuration | Required | Default | Description
 --- | --- | --- | ---
 msg-key | :x: | 'max-range' | A custom (or not) message key for use when formatting the error to the user
@@ -169,11 +190,12 @@ optional |:x: | false | If true the validation will only execute if the value is
 max | :white_check_mark: | | The maximum allowed length for the property string value
 trim | :x: | false | If true, the string value will be trimmed (trimming a string removes the leading and trailing white space and line terminator characters from a string) before checking its length.
 
-####@LengthRange
+####@InLengthRange
 Checks that the length of the string value is between the range of the min and max parameters.
+
 Configuration | Required | Default | Description
 --- | --- | --- | ---
-msg-key | :x: | 'length-range' | A custom (or not) message key for use when formatting the error to the user
+msg-key | :x: | 'in-length-range' | A custom (or not) message key for use when formatting the error to the user
 optional |:x: | false | If true the validation will only execute if the value is not null or undefined.
 min | :white_check_mark: | | The minimum allowed length for the property string value
 max | :white_check_mark: | | The maximum allowed length for the property string value
@@ -181,6 +203,7 @@ trim | :x: | false | If true, the string value will be trimmed (trimming a strin
 
 ####@InValues
 Checks that the value of the object is one of the allowed values.
+
 Configuration | Required | Default | Description
 --- | --- | --- | ---
 msg-key | :x: | 'in-values' | A custom (or not) message key for use when formatting the error to the user.
@@ -188,6 +211,7 @@ allowedValues | :white_check_mark: | | The array of allowed values of the object
 
 ####@Regex
 Checks that the string matches the regex provided.
+
 Configuration | Required | Default | Description
 --- | --- | --- | ---
 msg-key | :x: | 'regex' | A custom (or not) message key for use when formatting the error to the user
@@ -196,6 +220,7 @@ regex | :white_check_mark: | | The regular expression to test the string with
 
 ####@Email
 Checks that the string is a valid e-mail address. It's a shortcut for @Regex decorator.
+
 Configuration | Required | Default | Description
 --- | --- | --- | ---
 msg-key | :x: | 'regex-email' | A custom (or not) message key for use when formatting the error to the user
@@ -214,6 +239,15 @@ npm test
 * [Typescript](https://www.typescriptlang.org/) - The language used to built this module.
 * [Deep equal](https://www.npmjs.com/package/deep-equal) - Compare JSON objects.
 * [Reflect Metadata](https://www.npmjs.com/package/reflect-metadata) - Store validations in classes.
+
+##TO-DO
+I'm planning to keep this module updated and keep adding new features. Right now this is my route and status:
+
+Feature | Status | Description
+--- | --- | ---
+Improve testing | Planned | Refactor current tests and add some more to ensure the module works perfectly fine.
+Async validations | Planned | Allow asynchronous validations for querying a DB, calling a REST, or make heavy calculations for example.
+Conditional validations | Planned | Only validate a property if some condition is met.
 
 ## License
 
