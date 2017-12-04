@@ -1,5 +1,6 @@
 import { VALIDATIONS } from "../variables";
-export function pushValidation(clazz: any, key: string, validation: Function) {
+import { SingleValidationError, ValidationFunction } from "../../index";
+export function pushValidation(clazz: any, key: string, validation: ValidationFunction) {
     if (!Reflect.hasOwnMetadata(VALIDATIONS, clazz)) {
         Reflect.defineMetadata(VALIDATIONS, [], clazz);
     }
@@ -19,13 +20,10 @@ export function mergeOptions(defaultConfig: any, userConfig: any): any {
 }
 
 export function parseNumber(num: any): number {
-    if(num === null){
-        return NaN
-    } else if (typeof num === 'function'){
-        return num();
-    } else {
-        return Number(num);
-    }
+    return num === null ? NaN : Number(num);
+}
+export function parseDynamicNumber(num: any, instance: any) {
+    return typeof num === 'function' ? num(instance) : parseNumber(num);
 }
 
 export function isNullOrUndefined(value: any): boolean {

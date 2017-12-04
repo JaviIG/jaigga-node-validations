@@ -35,6 +35,10 @@ export const MIN_MAX_OPTIONAL = {
     "less": [{ "key": 'less', "params": { "field": 'less', "max": 0, "value": undefined } }]
 }
 
+export const IN_RANGE_DYNAMIC = {
+    "range": [{ "key": 'in-range', "params": { "field": 'range', "min": 0, "max": 10, "value": 10.0000000001 } }]
+}
+
 export const MIN_LENGTH_MAX_LENGTH_RANGE = {
     "minLength": [{ "key": 'min-length', "params": { "field": 'minLength', "min-length": 1, "value": "" } }],
     "maxLength": [{ "key": 'max-length', "params": { "field": 'maxLength', "max-length": 5, "value": "123456" } }],
@@ -44,6 +48,9 @@ export const MIN_LENGTH_MAX_LENGTH_RANGE = {
 export const MIN_LENGTH_MAX_LENGTH_OPTIONAL = {
     "minLength": [{ "key": 'min-length', "params": { "field": 'minLength', "min-length": 1, "value": null } }],
     "maxLength": [{ "key": 'max-length', "params": { "field": 'maxLength', "max-length": 5, "value": undefined } }]
+}
+export const IN_LENGTH_RANGE_DYNAMIC = {
+    "range": [{ "key": 'in-length-range', "params": { "field": 'range', "min-length": 1, "max-length": 5, "value": "123456" } }]
 }
 
 export const REGEX_INVALID = {

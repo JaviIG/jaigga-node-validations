@@ -1,9 +1,9 @@
-import { ServerRequestValidation } from './../util/validation.model';
 import * as mocha from 'mocha';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 import app from './../util/fake-server'
 import { validationErrorHandler } from '../../src/index';
+import { ServerRequestValidation } from './../util/validation.model';
 import { RESPONSE_DEFAULT_CONFIGURATION_MIN_EN, RESPONSE_DEFAULT_CONFIGURATION_MAX_ES, RESPONSE_DEFAULT_CONFIGURATION_MAX_EN, RESPONSE_CUSTOM_CONFIGURATION_MIN_AST, RESPONSE_CUSTOM_CONFIGURATION_MAX_ES } from './../util/responses.mock';
 
 describe("Middleware error handler", () => {

@@ -1,9 +1,9 @@
 import { expect } from 'chai';
-import { validator } from './../../util/validator.model';
-import { InValuesValidation } from './../../util/validation.model';
-import { ERRORS } from '../../../src/validations/variables';
-import { ValidationError } from '../../../src/index';
-import { IN_VALUES_INVALID } from '../../util/responses.mock';
+import { validator } from './../util/validator.model';
+import { InValuesValidation } from './../util/validation.model';
+import { ERRORS } from '../../src/validations/variables';
+import { ValidationError } from '../../src/index';
+import { IN_VALUES_INVALID } from '../util/responses.mock';
 describe("@InValues", () => {
     it("Should validate simple, object and array values.", () => {
         const stuff = new InValuesValidation(InValuesValidation.STR_VALUES[0],

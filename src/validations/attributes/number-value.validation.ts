@@ -1,4 +1,4 @@
-import { mergeOptions, pushValidation, parseNumber } from "./util";
+import { mergeOptions, pushValidation, parseNumber, parseDynamicNumber } from "./util";
 import { isNullOrUndefined } from "util";
 import { SingleValidationError } from './../single-validation-error';
 
@@ -9,13 +9,13 @@ import { SingleValidationError } from './../single-validation-error';
 export function Min(options: MinOptions): Function {
     mergeOptions(MinOptionsDefaults, options);
     return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
-        pushValidation(target, propertyKey, (value: any): SingleValidationError => {
+        pushValidation(target, propertyKey, (value: any, instance: any): SingleValidationError => {
             if (options.optional && isNullOrUndefined(value)) {
                 return;
             }
 
             const numValue = parseNumber(value);
-            const min = parseNumber(options.min);
+            const min = parseDynamicNumber(options.min, instance);
             if (isNaN(numValue) || numValue < min) {
                 return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "min": min } };
             }
@@ -29,13 +29,13 @@ export function Min(options: MinOptions): Function {
 export function Greater(options: MinOptions): Function {
     mergeOptions(GreaterOptionsDefaults, options);
     return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
-        pushValidation(target, propertyKey, (value: any): SingleValidationError => {
+        pushValidation(target, propertyKey, (value: any, instance: any): SingleValidationError => {
             if (options.optional && isNullOrUndefined(value)) {
                 return;
             }
 
             const numValue = parseNumber(value);
-            const min = parseNumber(options.min);
+            const min = parseDynamicNumber(options.min, instance);
             if (isNaN(numValue) || numValue <= min) {
                 return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "min": min } };
             }
@@ -76,13 +76,13 @@ const GreaterOptionsDefaults: MinOptions = {
 export function Max(options: MaxOptions): Function {
     mergeOptions(MaxOptionsDefaults, options);
     return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
-        pushValidation(target, propertyKey, (value: any): SingleValidationError => {
+        pushValidation(target, propertyKey, (value: any, instance: any): SingleValidationError => {
             if (options.optional && isNullOrUndefined(value)) {
                 return;
             }
 
             const numValue = parseNumber(value);
-            const max = parseNumber(options.max);
+            const max = parseDynamicNumber(options.max, instance);
             if (isNaN(numValue) || numValue > max) {
                 return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "max": max } };
             }
@@ -96,13 +96,13 @@ export function Max(options: MaxOptions): Function {
 export function Less(options: MaxOptions): Function {
     mergeOptions(LessOptionsDefaults, options);
     return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
-        pushValidation(target, propertyKey, (value: any): SingleValidationError => {
+        pushValidation(target, propertyKey, (value: any, instance: any): SingleValidationError => {
             if (options.optional && isNullOrUndefined(value)) {
                 return;
             }
 
             const numValue = parseNumber(value);
-            const max = parseNumber(options.max);
+            const max = parseDynamicNumber(options.max, instance);
             if (isNaN(numValue) || numValue >= max) {
                 return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "max": max } };
             }
@@ -140,17 +140,17 @@ const LessOptionsDefaults: MaxOptions = {
  * Checks that the value is inside the min and max range. Acts as a shortcut for @Min and @Max decorators.
  * @param options The configuration of the decorator.
  */
-export function Range(options: RangeOptions): Function {
-    mergeOptions(LessOptionsDefaults, options);
+export function InRange(options: InRangeOptions): Function {
+    mergeOptions(InRangeOptionsDefaults, options);
     return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
-        pushValidation(target, propertyKey, (value: any): SingleValidationError => {
+        pushValidation(target, propertyKey, (value: any, instance: any): SingleValidationError => {
             if (options.optional && isNullOrUndefined(value)) {
                 return;
             }
 
             const numValue = parseNumber(value);
-            const min = parseNumber(options.min);
-            const max = parseNumber(options.max);
+            const min = parseDynamicNumber(options.min, instance);
+            const max = parseDynamicNumber(options.max, instance);
             if (isNaN(numValue) || numValue < min || numValue > max) {
                 return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "min": min, "max": max } };
             }
@@ -170,15 +170,15 @@ export function Range(options: RangeOptions): Function {
  *                  "max": The maximum value allowed for the field.
  *               </pre>
  */
-export interface RangeOptions {
-    "min": number | (() => number);
-    "max": number | (() => number);
+export interface InRangeOptions {
+    "min": number | ((instance: any) => number);
+    "max": number | ((instance: any) => number);
     "optional"?: boolean;
     "msgKey"?: string;
 }
-const RangeOptionsDefaults: RangeOptions = {
+const InRangeOptionsDefaults: InRangeOptions = {
     "min": undefined,
     "max": undefined,
     "optional": false,
-    "msgKey": 'range'
+    "msgKey": 'in-range'
 }

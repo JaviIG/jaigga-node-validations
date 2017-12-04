@@ -1,7 +1,7 @@
 import { SingleValidationError } from './../single-validation-error';
 import { ValidationError } from './../validation-error';
-import *  as messagesEs from './../../messages/messages.es';
-import *  as messagesEn from './../../messages/messages.en';
+import { messages as messagesEs } from './../../messages/messages.es';
+import { messages as messagesEn } from './../../messages/messages.en';
 
 const defaultMessages = {
     "es": messagesEs,

@@ -1,4 +1,4 @@
-import { NotNull, NotEmpty, NotBlank, Min, Max, MinLength, MaxLength, Email, HasRegex, InValues, Less, Greater } from '../../src/index';
+import { NotNull, NotEmpty, NotBlank, Min, Max, MinLength, MaxLength, Email, HasRegex, InValues, Less, Greater, InRange, InLengthRange } from '../../src/index';
 
 export class NotNullValidation {
     @NotNull()
@@ -88,6 +88,18 @@ export class MinMaxValidation {
         this.minmax = minmax;
     }
 }
+export class InRangeValidation {
+    @InRange({ "min": (instance) => instance.dynamicMin, "max": (instance) => instance.dynamicMax })
+    public range: number;
+    public dynamicMin: number;
+    public dynamicMax: number;
+
+    constructor(range: number, dynamicMin: number, dynamicMax: number) {
+        this.range = range;
+        this.dynamicMax = dynamicMax;
+        this.dynamicMin = dynamicMin;
+    }
+}
 export class MinLengthMaxLengthValidation {
     @MinLength({ "min": 1 })
     minLength: string;
@@ -102,6 +114,19 @@ export class MinLengthMaxLengthValidation {
         this.minLength = minLength;
         this.maxLength = maxLength;
         this.both = both;
+    }
+}
+
+export class InLengthRangeValidation {
+    @InLengthRange({ "min": (instance) => instance.dynamicMin, "max": (instance) => instance.dynamicMax })
+    public range: string;
+    public dynamicMin: number;
+    public dynamicMax: number;
+
+    constructor(range: string, dynamicMin: number, dynamicMax: number) {
+        this.range = range;
+        this.dynamicMax = dynamicMax;
+        this.dynamicMin = dynamicMin;
     }
 }
 

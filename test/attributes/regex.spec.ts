@@ -1,9 +1,9 @@
-import { REGEX_INVALID, REGEX_OPTIONAL } from './../../util/responses.mock';
-import { ValidationError } from './../../../src/validations/validation-error';
+import { REGEX_INVALID, REGEX_OPTIONAL } from './../util/responses.mock';
+import { ValidationError } from './../../src/validations/validation-error';
 import { expect } from 'chai';
-import { validator } from './../../util/validator.model';
-import { RegexValidation } from './../../util/validation.model';
-import { ERRORS } from '../../../src/validations/variables';
+import { validator } from './../util/validator.model';
+import { RegexValidation } from './../util/validation.model';
+import { ERRORS } from '../../src/validations/variables';
 describe("@HasRegex, @Email", () => {
     it("Should validate values which match the regex", () => {
         const stuff = new RegexValidation("donkey", "user@domain.com");

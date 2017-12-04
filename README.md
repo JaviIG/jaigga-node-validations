@@ -142,7 +142,7 @@ msg-key | :x: | 'less' | A custom (or not) message key for use when formatting t
 optional |:x: | false | If true the validation will only execute if the value is not null or undefined.
 max | :white_check_mark: | | The maximum allowed value for the property
 
-####@Range
+####@InRange
 Checks that the attribute value is between the min and max parameters.
 Configuration | Required | Default | Description
 --- | --- | --- | ---

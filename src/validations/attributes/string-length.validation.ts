@@ -1,4 +1,4 @@
-import { mergeOptions, pushValidation, parseNumber } from "./util";
+import { mergeOptions, pushValidation, parseNumber, parseDynamicNumber } from "./util";
 import { isNullOrUndefined } from "util";
 import { SingleValidationError } from './../single-validation-error';
 
@@ -9,13 +9,13 @@ import { SingleValidationError } from './../single-validation-error';
 export function MinLength(options: MinLengthOptions): Function {
     mergeOptions(MinLengthOptionsDefaults, options);
     return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
-        pushValidation(target, propertyKey, (value: any): SingleValidationError => {
+        pushValidation(target, propertyKey, (value: any, instance: any): SingleValidationError => {
             if (options.optional && isNullOrUndefined(value)) {
                 return;
             }
 
             const length = options.trim ? String(value).trim().length : String(value).length;
-            const min = parseNumber(options.min);
+            const min = parseDynamicNumber(options.min, instance);
             if (isNullOrUndefined(value) || length < min) {
                 return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "min-length": min } };
             }
@@ -23,7 +23,7 @@ export function MinLength(options: MinLengthOptions): Function {
     }
 }
 /**
- * @property {number| (() => number)} min The min value allowed
+ * @property {number| ((instance) => number)} min The min value allowed
  * @property {boolean} [trim] If set to true the string value will be trimmed before comparing its length.
  * @property {boolean} [optional] If set to true, it will only validate if value is not null or undefined.
  * @property {string} [msgKey] An optional message key for the showed error, which defaults to 'min-length'. The params of the message are: 
@@ -34,7 +34,7 @@ export function MinLength(options: MinLengthOptions): Function {
  *               </pre>
  */
 export interface MinLengthOptions {
-    "min": number | (() => number);
+    "min": number | ((instance) => number);
     "trim"?: boolean;
     "optional"?: boolean;
     "msgKey"?: string;
@@ -52,13 +52,13 @@ const MinLengthOptionsDefaults: MinLengthOptions = {
 export function MaxLength(options: MaxLengthOptions): Function {
     mergeOptions(MaxLengthOptionsDefaults, options);
     return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
-        pushValidation(target, propertyKey, (value: any): SingleValidationError => {
+        pushValidation(target, propertyKey, (value: any, instance: any): SingleValidationError => {
             if (options.optional && isNullOrUndefined(value)) {
                 return;
             }
 
             const length = options.trim ? String(value).trim().length : String(value).length;
-            const max = parseNumber(options.max);
+            const max = parseDynamicNumber(options.max, instance);
             if (isNullOrUndefined(value) || length > max) {
                 return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "max-length": max } };
             }
@@ -66,7 +66,7 @@ export function MaxLength(options: MaxLengthOptions): Function {
     }
 }
 /**
- * @property {number | (() => number)} max The max value allowed;
+ * @property {number | ((instance) => number)} max The max value allowed;
  * @property {boolean} [trim] If set to true the string value will be trimmed before comparing its length.
  * @property {boolean} [optional] If set to true, it will only validate if value is not null or undefined.
  * @property {string} [msgKey] An optional message key for the showed error, which defaults to 'max-length'. The params of the message are: 
@@ -77,7 +77,7 @@ export function MaxLength(options: MaxLengthOptions): Function {
  *               </pre>
  */
 export interface MaxLengthOptions {
-    "max": number | (() => number);
+    "max": number | ((instance) => number);
     "trim"?: boolean;
     "optional"?: boolean;
     "msgKey"?: string;
@@ -93,17 +93,17 @@ const MaxLengthOptionsDefaults: MaxLengthOptions = {
  * Checks that the string length is between the range of the min and max parameters.
  * @param options The configuration of the decorator.
  */
-export function LengthRange(options: LengthRangeOptions): Function {
-    mergeOptions(MaxLengthOptionsDefaults, options);
+export function InLengthRange(options: InLengthRangeOptions): Function {
+    mergeOptions(InLengthRangeOptionsDefaults, options);
     return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
-        pushValidation(target, propertyKey, (value: any): SingleValidationError => {
+        pushValidation(target, propertyKey, (value: any, instance: any): SingleValidationError => {
             if (options.optional && isNullOrUndefined(value)) {
                 return;
             }
 
             const length = options.trim ? String(value).trim().length : String(value).length;
-            const min = parseNumber(options.min);
-            const max = parseNumber(options.max);
+            const min = parseDynamicNumber(options.min, instance);
+            const max = parseDynamicNumber(options.max, instance);
             if (isNullOrUndefined(value) || length < min || length > max) {
                 return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "min-length": min, "max-length": max } };
             }
@@ -111,8 +111,8 @@ export function LengthRange(options: LengthRangeOptions): Function {
     }
 }
 /**
- * @property {number | (() => number)} min The minimum value allowed;
- * @property {number | (() => number)} max The maximum value allowed;
+ * @property {number | ((instance) => number)} min The minimum value allowed;
+ * @property {number | ((instance) => number)} max The maximum value allowed;
  * @property {boolean} [trim] If set to true the string value will be trimmed before comparing its length.
  * @property {boolean} [optional] If set to true, it will only validate if value is not null or undefined.
  * @property {string} [msgKey] An optional message key for the showed error, which defaults to 'length-range'. The params of the message are: 
@@ -123,17 +123,17 @@ export function LengthRange(options: LengthRangeOptions): Function {
  *                  "max-length": The maximum length allowed for the field.
  *               </pre>
  */
-export interface LengthRangeOptions {
-    "min": number | (() => number);
-    "max": number | (() => number);
+export interface InLengthRangeOptions {
+    "min": number | ((instance) => number);
+    "max": number | ((instance) => number);
     "trim"?: boolean;
     "optional"?: boolean;
     "msgKey"?: string;
 }
-const LengthRangeOptionsDefaults: LengthRangeOptions = {
+const InLengthRangeOptionsDefaults: InLengthRangeOptions = {
     "min": undefined,
     "max": undefined,
     "trim": false,
     "optional": false,
-    "msgKey": 'length-range'
+    "msgKey": 'in-length-range'
 }

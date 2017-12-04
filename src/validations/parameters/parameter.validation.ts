@@ -43,7 +43,7 @@ export function Validate(): Function {
     }
 }
 function doValidation(validation: Validation, entity: any) {
-    const error = validation.validate(entity[validation.key]);
+    const error = validation.validate(entity[validation.key], entity);
     if (error !== undefined) {
         const errors = Reflect.getMetadata(ERRORS, entity);
         if (errors[validation.key] === undefined) {
