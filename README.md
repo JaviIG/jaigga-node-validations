@@ -103,7 +103,7 @@ Configuration | Required | Default | Description
 --- | --- | --- | ---
 msg-key | :x: | 'not-null' | A custom (or not) message key for use when formatting the error to the user
 
-####@NotEmpty
+#### @NotEmpty
 Checks that the attribute is not empty.
 
  - **Valid**:  null, undefined, "a", 1, {"x": ""}, [undefined]
@@ -113,7 +113,7 @@ Configuration | Required | Default | Description
 --- | --- | --- | ---
 msg-key | :x: | 'not-empty' | A custom (or not) message key for use when formatting the error to the user
 
-####@NotBlank
+#### @NotBlank
 Checks that the attribute is not empty, undefined or null.
 
  - **Valid**:  "a", 1, {"x": null}, [undefined]
@@ -123,7 +123,7 @@ Configuration | Required | Default | Description
 --- | --- | --- | ---
 msg-key | :x: | 'not-blank' | A custom (or not) message key for use when formatting the error to the user
 
-####@Min
+#### @Min
 Checks that the attribute is bigger or equal than the **min** parameter.
 
 Configuration | Required | Default | Description
@@ -133,7 +133,7 @@ optional |:x: | false | If true the validation will only execute if the value is
 min | :white_check_mark: | | The minimum allowed value for the property
 
 
-####@Greater
+#### @Greater
 Checks that the attribute is bigger than the **min** parameter.
 
 Configuration | Required | Default | Description
@@ -142,7 +142,7 @@ msg-key | :x: | 'greater' | A custom (or not) message key for use when formattin
 optional |:x: | false | If true the validation will only execute if the value is not null or undefined.
 min | :white_check_mark: | | The minimum allowed value for the property
 
-####@Max
+#### @Max
 Checks that the attribute is smaller or equal than the max parameter.
 
 Configuration | Required | Default | Description
@@ -151,7 +151,7 @@ msg-key | :x: | 'max' | A custom (or not) message key for use when formatting th
 optional |:x: | false | If true the validation will only execute if the value is not null or undefined.
 max | :white_check_mark: | | The maximum allowed value for the property
 
-####@Less
+#### @Less
 Checks that the attribute is smaller than the max parameter.
 
 Configuration | Required | Default | Description
@@ -160,7 +160,7 @@ msg-key | :x: | 'less' | A custom (or not) message key for use when formatting t
 optional |:x: | false | If true the validation will only execute if the value is not null or undefined.
 max | :white_check_mark: | | The maximum allowed value for the property
 
-####@InRange
+#### @InRange
 Checks that the attribute value is between the min and max parameters.
 
 Configuration | Required | Default | Description
@@ -170,7 +170,7 @@ optional |:x: | false | If true the validation will only execute if the value is
 min | :white_check_mark: | | The minimum allowed value for the property
 max | :white_check_mark: | | The maximum allowed value for the property
 
-####@MinLength
+#### @MinLength
 Checks that the attribute is smaller than the min parameter.
 
 Configuration | Required | Default | Description
@@ -180,7 +180,7 @@ optional |:x: | false | If true the validation will only execute if the value is
 min | :white_check_mark: | | The minimum allowed value for the property string value
 trim | :x: | false | If true, the string value will be trimmed (trimming a string removes the leading and trailing white space and line terminator characters from a string) before checking its length.
 
-####@MaxLength
+#### @MaxLength
 Checks that the string length is less or equal than the max parameter.
 
 Configuration | Required | Default | Description
@@ -190,7 +190,7 @@ optional |:x: | false | If true the validation will only execute if the value is
 max | :white_check_mark: | | The maximum allowed length for the property string value
 trim | :x: | false | If true, the string value will be trimmed (trimming a string removes the leading and trailing white space and line terminator characters from a string) before checking its length.
 
-####@InLengthRange
+#### @InLengthRange
 Checks that the length of the string value is between the range of the min and max parameters.
 
 Configuration | Required | Default | Description
@@ -201,7 +201,7 @@ min | :white_check_mark: | | The minimum allowed length for the property string 
 max | :white_check_mark: | | The maximum allowed length for the property string value
 trim | :x: | false | If true, the string value will be trimmed (trimming a string removes the leading and trailing white space and line terminator characters from a string) before checking its length.
 
-####@InValues
+#### @InValues
 Checks that the value of the object is one of the allowed values.
 
 Configuration | Required | Default | Description
@@ -209,7 +209,7 @@ Configuration | Required | Default | Description
 msg-key | :x: | 'in-values' | A custom (or not) message key for use when formatting the error to the user.
 allowedValues | :white_check_mark: | | The array of allowed values of the object
 
-####@Regex
+#### @Regex
 Checks that the string matches the regex provided.
 
 Configuration | Required | Default | Description
@@ -218,7 +218,7 @@ msg-key | :x: | 'regex' | A custom (or not) message key for use when formatting 
 optional |:x: | false | If true the validation will only execute if the value is not null or undefined.
 regex | :white_check_mark: | | The regular expression to test the string with
 
-####@Email
+#### @Email
 Checks that the string is a valid e-mail address. It's a shortcut for @Regex decorator.
 
 Configuration | Required | Default | Description
@@ -240,7 +240,7 @@ npm test
 * [Deep equal](https://www.npmjs.com/package/deep-equal) - Compare JSON objects.
 * [Reflect Metadata](https://www.npmjs.com/package/reflect-metadata) - Store validations in classes.
 
-##TO-DO
+## TO-DO
 I'm planning to keep this module updated and keep adding new features. Right now this is my route and status:
 
 Feature | Status | Description
