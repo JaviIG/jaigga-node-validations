@@ -5,7 +5,7 @@ import { ValidationError } from "../validation-error";
 
 
 
-export function valid(): Function {
+export function Valid(): Function {
     return (target: any, key: string, index: number) => {
         if (!Reflect.hasOwnMetadata(VALID, target, key)) {
             Reflect.defineMetadata(VALID, [], target, key);
@@ -16,7 +16,7 @@ export function valid(): Function {
     }
 }
 
-export function validate(): Function {
+export function Validate(): Function {
     return (clazz: any, key: string, descriptor: TypedPropertyDescriptor<Function>) => {
         const method = descriptor.value;
         descriptor.value = function () {

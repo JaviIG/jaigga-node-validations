@@ -14,9 +14,10 @@ export function Min(options: MinOptions): Function {
                 return;
             }
 
-            let numValue = parseNumber(value);
-            if (isNaN(numValue) || numValue < options.min) {
-                return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "min": options.min } };
+            const numValue = parseNumber(value);
+            const min = parseNumber(options.min);
+            if (isNaN(numValue) || numValue < min) {
+                return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "min": min } };
             }
         })
     }
@@ -33,16 +34,17 @@ export function Greater(options: MinOptions): Function {
                 return;
             }
 
-            let numValue = parseNumber(value);
-            if (isNaN(numValue) || numValue <= options.min) {
-                return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "min": options.min } };
+            const numValue = parseNumber(value);
+            const min = parseNumber(options.min);
+            if (isNaN(numValue) || numValue <= min) {
+                return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "min": min } };
             }
         })
     }
 }
 
 /**
- * @property {number} min The minimum value allowed.
+ * @property {number | (() => number)} min The minimum value allowed.
  * @property {boolean} [optional] If set to true, it will only validate if value is not null or undefined.
  * @property {string} [msgKey] An optional message key for the showed error, which defaults to 'min-exclude' or 'min'. The params of the message are: 
  *               <pre>
@@ -52,7 +54,7 @@ export function Greater(options: MinOptions): Function {
  *               </pre>
  */
 export interface MinOptions {
-    "min": number;
+    "min": number | (() => number);
     "optional"?: boolean;
     "msgKey"?: string;
 }
@@ -79,9 +81,10 @@ export function Max(options: MaxOptions): Function {
                 return;
             }
 
-            let numValue = parseNumber(value);
-            if (isNaN(numValue) || numValue > options.max) {
-                return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "max": options.max } };
+            const numValue = parseNumber(value);
+            const max = parseNumber(options.max);
+            if (isNaN(numValue) || numValue > max) {
+                return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "max": max } };
             }
         })
     }
@@ -98,16 +101,17 @@ export function Less(options: MaxOptions): Function {
                 return;
             }
 
-            let numValue = parseNumber(value);
-            if (isNaN(numValue) || numValue >= options.max) {
-                return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "max": options.max } };
+            const numValue = parseNumber(value);
+            const max = parseNumber(options.max);
+            if (isNaN(numValue) || numValue >= max) {
+                return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "max": max } };
             }
         })
     }
 }
 
 /**
- * @property {number} max The maximum value allowed.
+ * @property { number | (() => number) } max The maximum value allowed.
  * @property {boolean} [optional] If set to true, it will only validate if value is not null or undefined.
  * @property {string} [msgKey] An optional message key for the showed error, which defaults to 'max-exclude' or 'max'. The params of the message are: 
  *               <pre>
@@ -117,7 +121,7 @@ export function Less(options: MaxOptions): Function {
  *               </pre>
  */
 export interface MaxOptions {
-    "max": number;
+    "max": number | (() => number);
     "optional"?: boolean;
     "msgKey"?: string;
 }
@@ -130,4 +134,51 @@ const LessOptionsDefaults: MaxOptions = {
     "max": undefined,
     "optional": false,
     "msgKey": 'less'
+}
+
+/**
+ * Checks that the value is inside the min and max range. Acts as a shortcut for @Min and @Max decorators.
+ * @param options The configuration of the decorator.
+ */
+export function Range(options: RangeOptions): Function {
+    mergeOptions(LessOptionsDefaults, options);
+    return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
+        pushValidation(target, propertyKey, (value: any): SingleValidationError => {
+            if (options.optional && isNullOrUndefined(value)) {
+                return;
+            }
+
+            const numValue = parseNumber(value);
+            const min = parseNumber(options.min);
+            const max = parseNumber(options.max);
+            if (isNaN(numValue) || numValue < min || numValue > max) {
+                return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "min": min, "max": max } };
+            }
+        })
+    }
+}
+
+/**
+ * @property { number | (() => number)} min The minimum value allowed.
+ * @property { number | (() => number)} max The maximum value allowed.
+ * @property {boolean} [optional] If set to true, it will only validate if value is not null or undefined.
+ * @property {string} [msgKey] An optional message key for the showed error, which defaults to 'range' or 'max'. The params of the message are: 
+ *               <pre>
+ *                  "field": The name of the field to validate.
+ *                  "value": The value of the field.
+ *                  "min": The minimum value allowed for the field.
+ *                  "max": The maximum value allowed for the field.
+ *               </pre>
+ */
+export interface RangeOptions {
+    "min": number | (() => number);
+    "max": number | (() => number);
+    "optional"?: boolean;
+    "msgKey"?: string;
+}
+const RangeOptionsDefaults: RangeOptions = {
+    "min": undefined,
+    "max": undefined,
+    "optional": false,
+    "msgKey": 'range'
 }

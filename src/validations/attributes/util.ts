@@ -19,7 +19,13 @@ export function mergeOptions(defaultConfig: any, userConfig: any): any {
 }
 
 export function parseNumber(num: any): number {
-    return num === null ? NaN : Number(num);
+    if(num === null){
+        return NaN
+    } else if (typeof num === 'function'){
+        return num();
+    } else {
+        return Number(num);
+    }
 }
 
 export function isNullOrUndefined(value: any): boolean {

@@ -11,7 +11,8 @@ export function InValues(options: InValuesOptions): Function {
     mergeOptions(InValuesOptionsDefaults, options);
     return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
         pushValidation(target, propertyKey, (value: any): SingleValidationError => {
-            const result = options.allowedValues.findIndex((element) => {
+            const allowedValues = typeof options.allowedValues === 'function' ? options.allowedValues() : options.allowedValues;
+            const result = allowedValues.findIndex((element) => {
                 if (!isNullOrUndefined(value) && typeof element === 'object') {
                     return equal(value, element);
                 } else {
@@ -19,13 +20,13 @@ export function InValues(options: InValuesOptions): Function {
                 }
             })
             if (result === -1)
-                return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "allowed-values": options.allowedValues } };
+                return { "key": options.msgKey, "params": { "field": propertyKey, "value": value, "allowed-values": allowedValues } };
         })
     }
 }
 
 /**
- * @property {any[]} allowedValues The array of valid values
+ * @property {any[] | (() => any[]} allowedValues The array of valid values
  * @property {boolean} [optional] If set to true, it will only validate if value is not null or undefined.
  * @property {boolean} [msgKey] An optional message key for the showed error, which defaults to 'in-values'. The params of the message are: 
  *               <pre>
@@ -35,12 +36,10 @@ export function InValues(options: InValuesOptions): Function {
  *               </pre>
  */
 export interface InValuesOptions {
-    "allowedValues": any[]
-    "optional"?: boolean,
+    "allowedValues": any[] | (() => any[])
     "msgKey"?: string
 }
 const InValuesOptionsDefaults: InValuesOptions = {
     "allowedValues": undefined,
-    "optional": false,
     "msgKey": 'in-values'
 }

@@ -1,10 +1,10 @@
 import { ServerRequestValidation } from './validation.model';
-import { validate, valid } from "../../src/index";
+import { Validate, Valid } from "../../src/index";
 import { Application } from 'express';
 
 export class FakeController {
-    @validate()
-    public postStuff( @valid() stuff: ServerRequestValidation): ServerRequestValidation {
+    @Validate()
+    public postStuff( @Valid() stuff: ServerRequestValidation): ServerRequestValidation {
         return stuff;
     }
     public static register(app: Application) {

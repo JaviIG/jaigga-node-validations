@@ -1,9 +1,9 @@
-import { validate, valid } from "../../src/index";
+import { Validate, Valid } from "../../src/index";
 
 class Validator {
 
-    @validate()
-    validate( @valid() something: any) {
+    @Validate()
+    validate( @Valid() something: any) {
         //My only proposit is to validate the stuff entity
     }
 }
