@@ -245,7 +245,7 @@ I'm planning to keep this module updated and keep adding new features. Right now
 
 Feature | Status | Description
 --- | --- | ---
-Improve testing | Planned | Refactor current tests and add some more to ensure the module works perfectly fine.
+Improve testing | In-development | Refactor current tests and add some more to ensure the module works perfectly fine.
 Async validations | Planned | Allow asynchronous validations for querying a DB, calling a REST, or make heavy calculations for example.
 Conditional validations | Planned | Only validate a property if some condition is met.
 
