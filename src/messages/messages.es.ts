@@ -11,5 +11,5 @@ export const messages = {
     "max-length": "La longitud del campo '{field}' debe ser menor o igual de '{max-length}' caracteres.",
     "length-range": "La longitud del campo '{field}' debe estar entre '{min}' y '{max}'.",
     "regex-email": "El campo '{field}' debe ser una dirección de e-mail válida.",
-    "in-values": "El campo '{field}' debe de encontrarse entre los valores {allowed-values}."
-}
+    "in-values": "El campo '{field}' debe de encontrarse entre los valores {allowed-values}.",
+};

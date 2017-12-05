@@ -1,5 +1,6 @@
-import { mergeOptions, pushValidation, isNullOrUndefined, isEmpty, isBlank } from "./util";
-import { SingleValidationError } from './../single-validation-error';
+import { AttributeDecorator } from "../types";
+import { ISingleValidationError } from "./../single-validation-error";
+import { isBlank, isEmpty, isNullOrUndefined, mergeOptions, pushValidation } from "./util";
 
 /**
  * Checks that the value is not null or undefined.
@@ -7,65 +8,65 @@ import { SingleValidationError } from './../single-validation-error';
  *      Valid values: "a", {}, [], 0
  * @example
  *      Invalid values example: null, undefined
- * @param {NotNullOptions}[options] The configuration of the decorator.
+ * @param {INotNullOptions}[options] The configuration of the decorator.
  */
-export function NotNull(options: NotNullOptions = {}): Function {
+export function NotNull(options: INotNullOptions = {}): AttributeDecorator {
     mergeOptions(NotNullOptionsDefaults, options);
     return (target: any, propertyKey: string) => {
-        pushValidation(target, propertyKey, (value: any): SingleValidationError => {
+        pushValidation(target, propertyKey, (value: any): ISingleValidationError => {
             if (isNullOrUndefined(value)) {
-                return { "key": options.msgKey, "params": { "field": propertyKey, "value": value } };
+                return { key: options.msgKey, params: { field: propertyKey, value } };
             }
-        })
-    }
+        });
+    };
 }
 /**
- * @property {string} [msgKey] An optional message key for the showed error, which defaults to 'not-null'. The params of the message are: 
+ * @property {string} [msgKey] An optional message key for the showed error, which defaults to 'not-null'. The params of the message are:
  *               <pre>
  *                  "field": The name of the field to validate.
  *                  "value": The value of the field.
  *               </pre>
  */
-export interface NotNullOptions {
-    "msgKey"?: string
+export interface INotNullOptions {
+    "msgKey"?: string;
 }
-const NotNullOptionsDefaults: NotNullOptions = {
-    "msgKey": 'not-null'
-}
+const NotNullOptionsDefaults: INotNullOptions = {
+    msgKey: "not-null",
+};
 
 /**
  * Checks that the value is not empty.
- * 
+ *
  * @example
  *      Valid values: null, undefined, "a", 1, {"x": ""}, [undefined]
  * @example
  *      Invalid values: "", {}, []
- * @param {NotEmptyOptions} [options] The configuration of the decorator.
+ * @param {INotEmptyOptions} [options] The configuration of the decorator.
  */
-export function NotEmpty(options: NotEmptyOptions= {}): Function {
+export function NotEmpty(options: INotEmptyOptions= {}): AttributeDecorator {
     mergeOptions(NotEmptyOptionsDefaults, options);
     return (target: any, propertyKey: string) => {
-        pushValidation(target, propertyKey, (value: any): SingleValidationError => {
+        pushValidation(target, propertyKey, (value: any): ISingleValidationError => {
             if (!isNullOrUndefined(value) && isEmpty(value)) {
-                return { "key": options.msgKey, "params": { "field": propertyKey, "value": value } };
+                return { key: options.msgKey, params: { field: propertyKey, value } };
             }
-        })
-    }
+        });
+    };
 }
 
 /**
- * @property {string} [msgKey] An optional message key for the showed error, which defaults to 'not-empty'. The params of the message are: 
+ * @property {string} [msgKey] An optional message key for the showed error, which defaults to 'not-empty'. The params of the message are:
  *               <pre>
  *                  "field": The name of the field to validate.
  *                  "value": The value of the field.
  *               </pre>
  */
-export interface NotEmptyOptions {
-    "msgKey"?: string
+export interface INotEmptyOptions {
+    "msgKey"?: string;
 }
-const NotEmptyOptionsDefaults: NotEmptyOptions = {
-    "msgKey": 'not-empty'
-}
+const NotEmptyOptionsDefaults: INotEmptyOptions = {
+    msgKey: "not-empty",
+};
 
 /**
  * Checks that the value is not null, undefined or empty.
@@ -73,29 +74,29 @@ const NotEmptyOptionsDefaults: NotEmptyOptions = {
  *      Valid values example: "a", 1, {"x": null}, [undefined]
  * @example
  *      Invalid values example: "", {}, [], undefined, null
- * @param {NotBlankOptions} [options] The configuration of the decorator.
+ * @param {INotBlankOptions} [options] The configuration of the decorator.
  */
-export function NotBlank(options: NotBlankOptions= {}): Function {
+export function NotBlank(options: INotBlankOptions= {}): AttributeDecorator {
     mergeOptions(NotBlankOptionsDefaults, options);
     return (target: any, propertyKey: string) => {
-        pushValidation(target, propertyKey, (value: any): SingleValidationError => {
+        pushValidation(target, propertyKey, (value: any): ISingleValidationError => {
             if (isBlank(value)) {
-                return { "key": options.msgKey, "params": { "field": propertyKey, "value": value } };
+                return { key: options.msgKey, params: { field: propertyKey, value } };
             }
-        })
-    }
+        });
+    };
 }
 
 /**
- * @property {string} [msgKey] An optional message key for the showed error, which defaults to 'not-blank'. The params of the message are: 
+ * @property {string} [msgKey] An optional message key for the showed error, which defaults to 'not-blank'. The params of the message are:
  *               <pre>
  *                  "field": The name of the field to validate.
  *                  "value": The value of the field.
  *               </pre>
  */
-export interface NotBlankOptions {
-    "msgKey"?: string
+export interface INotBlankOptions {
+    "msgKey"?: string;
 }
-const NotBlankOptionsDefaults: NotBlankOptions = {
-    "msgKey": 'not-blank'
-}
+const NotBlankOptionsDefaults: INotBlankOptions = {
+    msgKey: "not-blank",
+};

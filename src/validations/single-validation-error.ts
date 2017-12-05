@@ -1,4 +1,4 @@
-export interface SingleValidationError {
+export interface ISingleValidationError {
     key: string;
     params: any;
 }

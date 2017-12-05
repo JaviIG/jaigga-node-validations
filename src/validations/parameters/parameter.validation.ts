@@ -1,5 +1,5 @@
-import { SingleValidationError } from './../single-validation-error';
-import { Validation } from '../validation';
+import { ISingleValidationError } from './../single-validation-error';
+import { IValidation } from '../validation';
 import { VALID, ERRORS, VALIDATIONS } from "../variables";
 import { ValidationError } from "../validation-error";
 
@@ -42,7 +42,7 @@ export function Validate(): Function {
         }
     }
 }
-function doValidation(validation: Validation, entity: any) {
+function doValidation(validation: IValidation, entity: any) {
     const error = validation.validate(entity[validation.key], entity);
     if (error !== undefined) {
         const errors = Reflect.getMetadata(ERRORS, entity);
@@ -52,7 +52,7 @@ function doValidation(validation: Validation, entity: any) {
         errors[validation.key].push(error);
     }
 }
-function pushError(entity: any, propertyKey: string, error: SingleValidationError) {
+function pushError(entity: any, propertyKey: string, error: ISingleValidationError) {
     const errors = Reflect.getMetadata(ERRORS, entity);
     if (!errors[propertyKey])
         errors[propertyKey] = [];
