@@ -1,6 +1,6 @@
 import { Application } from "express";
 import { Valid, Validate } from "../../../src/index";
-import { SampleModel } from "./Sample.model";
+import { SampleModel } from "./sample.model";
 
 export class SampleController {
     public static register(app: Application) {
