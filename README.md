@@ -1,14 +1,23 @@
-# Jaigga Node Validations ![Travis build status](https://travis-ci.org/JaviIG/jaigga-node-validations.svg?branch=master)
+# Jaigga Node Validations 
+
+![Travis build status](https://travis-ci.org/JaviIG/jaigga-node-validations.svg?branch=master)
 A module to make that ugly model data validations easier. Inspired by javax.validation.
 
 ## Why?
+
 Because i was bored after several weeks of no programming because of my master's degree documentation subjects. Also I saw how Typescript/Javascript decorators worked and I instantly fell in love.
+
+## Features
+- Easy decorate your model class properties to ensure they have a valida data.
+- Friendly syntax.
+- I18n support. You can add your own languages and custom messages.
+- Totally configurable. Each decorator has its own options, explained in [Decorators configuration](#decorators-configuration)
 
 ## Getting Started
 
 This node module performs data validations by using decorators over class attributes. For using it you only have to install it and decorate that class attributes with the validations.
 
-###Requirements
+### Requirements
 At the moment this module is only working with **Typescript** NodeJS projects. In the future I'll try to make it compatible with vanilla js projects.
 
 ### Installing
@@ -26,6 +35,7 @@ After installing, you just have to add the provided middleware after all of your
 Both the decorators and the middleware have lots of properties you can use to customize how they behave.
 
 ### Middleware configuration
+
 First of all you will need to configure the middleware. For doing this, simply add after all of your routes the provided error handler.
 ```
 import { validationErrorHandler } from 'jaigga-node-validations';
@@ -53,6 +63,7 @@ This parameters are:
 ```
 
 ### Validator configuration
+
 When you want your object to be valid you have to annotate the method with @Validate() annotation, and the model parameter with @Valid() annotation.
 
 ```
@@ -94,6 +105,7 @@ class YearsForm {
 And congratulations! You have successfully checked in one line that the graduation year is bigger than the birth year.
 
 #### @NotNull
+
 Checks that the attribute is not null or undefined.
 
  - **Valid**:  "a", {}, [], 0
@@ -104,6 +116,7 @@ Configuration | Required | Default | Description
 msg-key | :x: | 'not-null' | A custom (or not) message key for use when formatting the error to the user
 
 #### @NotEmpty
+
 Checks that the attribute is not empty.
 
  - **Valid**:  null, undefined, "a", 1, {"x": ""}, [undefined]
@@ -114,6 +127,7 @@ Configuration | Required | Default | Description
 msg-key | :x: | 'not-empty' | A custom (or not) message key for use when formatting the error to the user
 
 #### @NotBlank
+
 Checks that the attribute is not empty, undefined or null.
 
  - **Valid**:  "a", 1, {"x": null}, [undefined]
@@ -124,6 +138,7 @@ Configuration | Required | Default | Description
 msg-key | :x: | 'not-blank' | A custom (or not) message key for use when formatting the error to the user
 
 #### @Min
+
 Checks that the attribute is bigger or equal than the **min** parameter.
 
 Configuration | Required | Default | Description
@@ -132,8 +147,8 @@ msg-key | :x: | 'min' | A custom (or not) message key for use when formatting th
 optional |:x: | false | If true the validation will only execute if the value is not null or undefined.
 min | :white_check_mark: | | The minimum allowed value for the property
 
-
 #### @Greater
+
 Checks that the attribute is bigger than the **min** parameter.
 
 Configuration | Required | Default | Description
@@ -143,6 +158,7 @@ optional |:x: | false | If true the validation will only execute if the value is
 min | :white_check_mark: | | The minimum allowed value for the property
 
 #### @Max
+
 Checks that the attribute is smaller or equal than the max parameter.
 
 Configuration | Required | Default | Description
@@ -152,6 +168,7 @@ optional |:x: | false | If true the validation will only execute if the value is
 max | :white_check_mark: | | The maximum allowed value for the property
 
 #### @Less
+
 Checks that the attribute is smaller than the max parameter.
 
 Configuration | Required | Default | Description
@@ -161,6 +178,7 @@ optional |:x: | false | If true the validation will only execute if the value is
 max | :white_check_mark: | | The maximum allowed value for the property
 
 #### @InRange
+
 Checks that the attribute value is between the min and max parameters.
 
 Configuration | Required | Default | Description
@@ -171,6 +189,7 @@ min | :white_check_mark: | | The minimum allowed value for the property
 max | :white_check_mark: | | The maximum allowed value for the property
 
 #### @MinLength
+
 Checks that the attribute is smaller than the min parameter.
 
 Configuration | Required | Default | Description
@@ -178,9 +197,10 @@ Configuration | Required | Default | Description
 msg-key | :x: | 'min-length' | A custom (or not) message key for use when formatting the error to the user
 optional |:x: | false | If true the validation will only execute if the value is not null or undefined.
 min | :white_check_mark: | | The minimum allowed value for the property string value
-trim | :x: | false | If true, the string value will be trimmed (trimming a string removes the leading and trailing white space and line terminator characters from a string) before checking its length.
+trim | :x: | false | If true, the string value will be trimmed (trimming a string removes the leading and trailing white space and line terminator characters from its start and end) before checking its length.
 
 #### @MaxLength
+
 Checks that the string length is less or equal than the max parameter.
 
 Configuration | Required | Default | Description
@@ -188,9 +208,10 @@ Configuration | Required | Default | Description
 msg-key | :x: | 'max-range' | A custom (or not) message key for use when formatting the error to the user
 optional |:x: | false | If true the validation will only execute if the value is not null or undefined.
 max | :white_check_mark: | | The maximum allowed length for the property string value
-trim | :x: | false | If true, the string value will be trimmed (trimming a string removes the leading and trailing white space and line terminator characters from a string) before checking its length.
+trim | :x: | false | If true, the string value will be trimmed (trimming a string removes the leading and trailing white space and line terminator characters from its start and end) before checking its length.
 
 #### @InLengthRange
+
 Checks that the length of the string value is between the range of the min and max parameters.
 
 Configuration | Required | Default | Description
@@ -199,9 +220,10 @@ msg-key | :x: | 'in-length-range' | A custom (or not) message key for use when f
 optional |:x: | false | If true the validation will only execute if the value is not null or undefined.
 min | :white_check_mark: | | The minimum allowed length for the property string value
 max | :white_check_mark: | | The maximum allowed length for the property string value
-trim | :x: | false | If true, the string value will be trimmed (trimming a string removes the leading and trailing white space and line terminator characters from a string) before checking its length.
+trim | :x: | false | If true, the string value will be trimmed (trimming a string removes the leading and trailing white space and line terminator characters from its start and end) before checking its length.
 
 #### @InValues
+
 Checks that the value of the object is one of the allowed values.
 
 Configuration | Required | Default | Description
@@ -210,6 +232,7 @@ msg-key | :x: | 'in-values' | A custom (or not) message key for use when formatt
 allowedValues | :white_check_mark: | | The array of allowed values of the object
 
 #### @MatchesRegex
+
 Checks that the string matches the regex provided.
 
 Configuration | Required | Default | Description
@@ -219,6 +242,7 @@ optional |:x: | false | If true the validation will only execute if the value is
 regex | :white_check_mark: | | The regular expression to test the string with
 
 #### @Email
+
 Checks that the string is a valid e-mail address. It's a shortcut for @Regex decorator.
 
 Configuration | Required | Default | Description
