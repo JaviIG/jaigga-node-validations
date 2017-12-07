@@ -1,6 +1,7 @@
 # Jaigga Node Validations 
 
 ![Travis build status](https://travis-ci.org/JaviIG/jaigga-node-validations.svg?branch=master)
+
 A module to make that ugly model data validations easier. Inspired by javax.validation.
 
 ## Why?
