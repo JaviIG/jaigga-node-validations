@@ -1,2 +1,3 @@
-export type OptionsFunctionNumber = (instance: any) => number;
-export type AttributeDecorator = (target, propertyKey: string, descriptor: PropertyDescriptor) => void;
+export type DynamicNumber = number | ((instance: any) => number);
+export type DynamicArray = any[] | ((instance: any) => any[]);
+export type AttributeDecorator = any;

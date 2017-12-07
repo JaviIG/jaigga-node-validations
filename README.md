@@ -209,7 +209,7 @@ Configuration | Required | Default | Description
 msg-key | :x: | 'in-values' | A custom (or not) message key for use when formatting the error to the user.
 allowedValues | :white_check_mark: | | The array of allowed values of the object
 
-#### @Regex
+#### @MatchesRegex
 Checks that the string matches the regex provided.
 
 Configuration | Required | Default | Description
@@ -245,7 +245,7 @@ I'm planning to keep this module updated and keep adding new features. Right now
 
 Feature | Status | Description
 --- | --- | ---
-Improve testing | In-development | Refactor current tests and add some more to ensure the module works perfectly fine.
+Improve testing | Done | Refactor current tests and add some more to ensure the module works perfectly fine.
 Async validations | Planned | Allow asynchronous validations for querying a DB, calling a REST, or make heavy calculations for example.
 Conditional validations | Planned | Only validate a property if some condition is met.
 

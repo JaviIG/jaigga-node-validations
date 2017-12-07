@@ -7,7 +7,7 @@ import { mergeOptions, pushValidation } from "./util";
  * Checks that the value matches the regular expression
  * @param options The configuration of the decorator.
  */
-export function HasRegex(options: IRegexOptions): AttributeDecorator {
+export function MatchesRegex(options: IRegexOptions): AttributeDecorator {
     mergeOptions(RegexOptionsDefaults, options);
     return (target, propertyKey: string, descriptor: PropertyDescriptor) => {
         pushValidation(target, propertyKey, (value: any): ISingleValidationError => {
@@ -46,14 +46,19 @@ const RegexOptionsDefaults: IRegexOptions = {
  * Shortcut for {@link @hasRegex(EMAIL_REGEX)}
  * @param options The configuration of the decorator.
  */
-export function Email(options: IRegexOptions = {} as any): AttributeDecorator {
+export function Email(options: IEmailOptions = {}): AttributeDecorator {
     mergeOptions(EmailOptionsDefaults, options);
-    return HasRegex(options);
+    return MatchesRegex({ regex: options.regex, msgKey: options.msgKey, optional: options.optional });
 }
 
+export interface IEmailOptions {
+    "regex"?: RegExp;
+    "optional"?: boolean;
+    "msgKey"?: string;
+}
 // tslint:disable-next-line:max-line-length
 export const EMAIL_REGEX: RegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const EmailOptionsDefaults: IRegexOptions = {
+const EmailOptionsDefaults: IEmailOptions = {
     msgKey: "regex-email",
     optional: false,
     regex: EMAIL_REGEX,

@@ -13,22 +13,29 @@ export function validationErrorHandler(defaultLanguage: string = "en", userMessa
         if (err instanceof ValidationError) {
             const validationError = err as ValidationError;
             const messages = userMessages || defaultMessages;
-            const language = req.acceptsLanguages(Object.keys(messages)) || defaultLanguage;
-            const errors = createErrorObject(validationError.errors, messages, language);
+            const language = getLanguage(req, defaultLanguage, messages);
+            const errors = validationError.errors;
+            createErrorMessages(errors, messages, language);
             res.status(400).send(errors);
         }
     };
 }
-
-function createErrorObject(errors: any, messages: any, language: string) {
-    const response = {};
+function getLanguage(req: any, defaultLanguage: string, messages: any): string {
+    const languagesAccepted = req.acceptsLanguages();
+    const userAcceptsAllLanguages = languagesAccepted.length === 1 && languagesAccepted[0] === "*";
+    if (languagesAccepted.length === 0 || userAcceptsAllLanguages) {
+        return defaultLanguage;
+    } else {
+        return req.acceptsLanguages(Object.keys(messages)) || defaultLanguage;
+    }
+}
+function createErrorMessages(errors: any, messages: any, language: string) {
     for (const property in errors) {
         if (errors.hasOwnProperty(property)) {
             const propertyErrors: ISingleValidationError[] = errors[property];
-            response[property] = propertyErrors.map((err) => format(err, messages, language));
+            propertyErrors.forEach((err) => err.description = format(err, messages, language));
         }
     }
-    return response;
 }
 
 function format(error: ISingleValidationError, messages: any, language: string) {

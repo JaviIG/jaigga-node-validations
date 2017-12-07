@@ -1,5 +1,5 @@
 import { isNullOrUndefined } from "util";
-import { AttributeDecorator, OptionsFunctionNumber } from "../types";
+import { AttributeDecorator, DynamicNumber } from "../types";
 import { ISingleValidationError } from "./../single-validation-error";
 import { mergeOptions, parseDynamicNumber, parseNumber, pushValidation } from "./util";
 
@@ -45,7 +45,7 @@ export function Greater(options: IMinOptions): AttributeDecorator {
 }
 
 /**
- * @property {number | (() => number)} min The minimum value allowed.
+ * @property {DynamicNumber} min The minimum value allowed.
  * @property {boolean} [optional] If set to true, it will only validate if value is not null or undefined.
  * @property {string} [msgKey] An optional message key for the showed error, which defaults to 'min-exclude' or 'min'.
  *          The params of the message are:
@@ -56,7 +56,7 @@ export function Greater(options: IMinOptions): AttributeDecorator {
  *               </pre>
  */
 export interface IMinOptions {
-    "min": number | (() => number);
+    "min": DynamicNumber;
     "optional"?: boolean;
     "msgKey"?: string;
 }
@@ -113,7 +113,7 @@ export function Less(options: IMaxOptions): AttributeDecorator {
 }
 
 /**
- * @property { number | (() => number) } max The maximum value allowed.
+ * @property {DynamicNumber} max The maximum value allowed.
  * @property {boolean} [optional] If set to true, it will only validate if value is not null or undefined.
  * @property {string} [msgKey] An optional message key for the showed error, which defaults to 'max-exclude' or 'max'.
  *          The params of the message are:
@@ -124,7 +124,7 @@ export function Less(options: IMaxOptions): AttributeDecorator {
  *               </pre>
  */
 export interface IMaxOptions {
-    "max": number | OptionsFunctionNumber;
+    "max": DynamicNumber;
     "optional"?: boolean;
     "msgKey"?: string;
 }
@@ -162,8 +162,8 @@ export function InRange(options: IInRangeOptions): AttributeDecorator {
 }
 
 /**
- * @property { number | (() => number)} min The minimum value allowed.
- * @property { number | (() => number)} max The maximum value allowed.
+ * @property {DynamicNumber} min The minimum value allowed.
+ * @property {DynamicNumber} max The maximum value allowed.
  * @property {boolean} [optional] If set to true, it will only validate if value is not null or undefined.
  * @property {string} [msgKey] An optional message key for the showed error, which defaults to 'range' or 'max'.
  *      The params of the message are:
@@ -175,8 +175,8 @@ export function InRange(options: IInRangeOptions): AttributeDecorator {
  *               </pre>
  */
 export interface IInRangeOptions {
-    "min": number | OptionsFunctionNumber;
-    "max": number |OptionsFunctionNumber;
+    "min": DynamicNumber;
+    "max": DynamicNumber;
     "optional"?: boolean;
     "msgKey"?: string;
 }
