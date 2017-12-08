@@ -1,6 +1,6 @@
 {
     "name": "jaigga-node-validations",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A node module for validating classes attributes",
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
